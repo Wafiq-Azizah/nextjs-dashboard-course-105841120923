@@ -3,17 +3,17 @@ import InvoicesTable from '@/app/ui/invoices/table';
 import Search from '@/app/ui/search';
 import Pagination from '@/app/ui/pagination';
 
-export default async function InvoicesPage({
-  searchParams,
-}: {
-  searchParams?: Promise<{
+interface PageProps {
+  searchParams: Promise<{
     query?: string;
     page?: string;
   }>;
-}) {
-  const resolvedSearchParams = await searchParams;
-  const query = resolvedSearchParams?.query || '';
-  const currentPage = Number(resolvedSearchParams?.page) || 1;
+}
+
+export default async function InvoicesPage(props: PageProps) {
+  const searchParams = await props.searchParams;
+  const query = searchParams?.query || '';
+  const currentPage = Number(searchParams?.page) || 1;
 
   const invoices = await fetchFilteredInvoices(query, currentPage);
   const totalPages = await fetchInvoicesPages(query);
