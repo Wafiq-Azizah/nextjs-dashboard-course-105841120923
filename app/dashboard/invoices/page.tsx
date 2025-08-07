@@ -1,9 +1,8 @@
-import { fetchInvoicesPages } from '@/app/lib/data';
+import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
+import { Suspense } from 'react';
 import InvoicesTable from '@/app/ui/invoices/table';
-import Search from '@/app/ui/search';
-import Pagination from '@/app/ui/pagination';
 
-export default async function InvoicesPage({
+export default function Page({
   searchParams,
 }: {
   searchParams?: {
@@ -14,19 +13,11 @@ export default async function InvoicesPage({
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
 
-  const totalPages = await fetchInvoicesPages(query);
-
   return (
-    <div className="w-full">
-      <div className="flex w-full items-center justify-between">
-        <h1 className="text-2xl">Invoices</h1>
-        <Search placeholder="Search invoices..." />
-      </div>
-
-      {/* Tidak perlu oper `invoices` lagi */}
-      <InvoicesTable query={query} currentPage={currentPage} />
-
-      <Pagination totalPages={totalPages} />
-    </div>
+    <main>
+      <Suspense fallback={<InvoicesTableSkeleton />}>
+        <InvoicesTable query={query} currentPage={currentPage} />
+      </Suspense>
+    </main>
   );
 }
