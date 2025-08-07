@@ -3,6 +3,9 @@ import InvoicesTable from '@/app/ui/invoices/table';
 import Search from '@/app/ui/search';
 import Pagination from '@/app/ui/pagination';
 
+// Force dynamic rendering - don't prerender at build time
+export const dynamic = 'force-dynamic';
+
 export default async function InvoicesPage() {
   const query = '';
   const currentPage = 1;
