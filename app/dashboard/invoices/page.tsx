@@ -1,6 +1,6 @@
-import { fetchFilteredInvoices, fetchInvoicesPages } from '@/app/lib/data';
-import  InvoicesTable  from '@/app/ui/invoices/table';
-import  Search  from '@/app/ui/search';
+import { fetchInvoicesPages } from '@/app/lib/data';
+import InvoicesTable from '@/app/ui/invoices/table';
+import Search from '@/app/ui/search';
 import Pagination from '@/app/ui/pagination';
 
 export default async function InvoicesPage({
@@ -14,7 +14,6 @@ export default async function InvoicesPage({
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
 
-  const invoices = await fetchFilteredInvoices(query, currentPage);
   const totalPages = await fetchInvoicesPages(query);
 
   return (
@@ -24,7 +23,8 @@ export default async function InvoicesPage({
         <Search placeholder="Search invoices..." />
       </div>
 
-      <InvoicesTable query="" currentPage={1} />
+      {/* Tidak perlu oper `invoices` lagi */}
+      <InvoicesTable query={query} currentPage={currentPage} />
 
       <Pagination totalPages={totalPages} />
     </div>
